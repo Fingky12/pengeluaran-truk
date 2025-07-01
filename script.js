@@ -90,3 +90,10 @@ function ambilBarang() {
 
 renderStok();
 renderLog();
+
+function exportExcel() {
+  const ws = XLSX.utils.json_to_sheet(log);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Pengeluaran");
+  XLSX.writeFile(wb, "pengeluaran-truk.xlsx");
+}

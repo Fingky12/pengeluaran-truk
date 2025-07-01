@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Aplikasi Pengeluaran Truk</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -41,6 +42,7 @@
     <table id="tabelLog"></table>
     <div id="totalPengeluaran">Total: Rp 0</div>
   </section>
+  <button onclick="exportExcel()">📥 Ekspor ke Excel</button>
 
   <script src="script.js"></script>
 </body>
