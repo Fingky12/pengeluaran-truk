@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aplikasi Pengeluaran Truk</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>🚚 Aplikasi Pengeluaran Truk</h2>
+
+  <!-- Form Tambah Barang ke Stok -->
+  <section>
+    <h3>➕ Tambah Barang ke Stok</h3>
+    <input id="namaBarang" placeholder="Nama Barang" />
+    <select id="kondisiBarang">
+      <option>Baru</option>
+      <option>Bekas</option>
+    </select>
+    <input id="hargaBarang" placeholder="Harga Satuan" type="number" />
+    <input id="jumlahBarang" placeholder="Jumlah" type="number" />
+    <button onclick="tambahStok()">Tambah ke Stok</button>
+  </section>
+
+  <!-- Daftar Stok -->
+  <section>
+    <h3>📦 Stok Barang</h3>
+    <table id="tabelStok"></table>
+  </section>
+
+  <!-- Form Ambil Barang -->
+  <section>
+    <h3>🛠️ Supir Ambil Barang</h3>
+    <select id="pilihBarang"></select>
+    <input id="jumlahAmbil" placeholder="Jumlah Ambil" type="number" />
+    <button onclick="ambilBarang()">Ambil & Catat</button>
+  </section>
+
+  <!-- Log Pengeluaran -->
+  <section>
+    <h3>📋 Riwayat Pengeluaran</h3>
+    <table id="tabelLog"></table>
+    <div id="totalPengeluaran">Total: Rp 0</div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
