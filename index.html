@@ -12,6 +12,7 @@
   <!-- Form Tambah Barang ke Stok -->
   <section>
     <h3>➕ Tambah Barang ke Stok</h3>
+    <button onclick="urutkanStokAZ()">🔤 Urutkan A-Z</button>
     <input id="namaBarang" placeholder="Nama Barang" />
     <select id="kondisiBarang">
       <option>Baru</option>
@@ -25,7 +26,19 @@
   <!-- Daftar Stok -->
   <section>
     <h3>📦 Stok Barang</h3>
-    <table id="tabelStok"></table>
+    <table id="tabelStok">
+	<div id="formEdit" style="display:none; margin-top:15px;">
+	  <h4>✏️ Edit Barang</h4>
+	  <input id="editNama" placeholder="Nama Barang" />
+	  <select id="editKondisi">
+	    <option>Baru</option>
+	    <option>Bekas</option>
+	  </select>
+	  <input id="editHarga" placeholder="Harga Satuan" type="number" />
+	  <input id="editJumlah" placeholder="Jumlah" type="number" />
+	  <button onclick="simpanEdit()">💾 Simpan Perubahan</button>
+	</div>
+    </table>
   </section>
 
   <!-- Form Ambil Barang -->
@@ -39,10 +52,14 @@
   <!-- Log Pengeluaran -->
   <section>
     <h3>📋 Riwayat Pengeluaran</h3>
+    <div style="margin-bottom:10px;">
+      <input type="text" id="filterBarang" placeholder="🔍 Filter Nama Barang" oninput="renderLog()">
+      <input type="date" id="filterTanggal" oninput="renderLog()">
+    </div>
+    <button onclick="exportExcel()">📥 Ekspor ke Excel</button>
     <table id="tabelLog"></table>
     <div id="totalPengeluaran">Total: Rp 0</div>
   </section>
-  <button onclick="exportExcel()">📥 Ekspor ke Excel</button>
 
   <script src="script.js"></script>
 </body>
