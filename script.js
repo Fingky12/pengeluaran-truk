@@ -39,8 +39,17 @@ function renderLog() {
   const keyword = document.getElementById("filterBarang")?.value.toLowerCase() || "";
   const tanggalFilter = document.getElementById("filterTanggal")?.value;
 
+function isiSelectTahun() {
+  const tahunSelect = document.getElementById("filterTahun");
+  const tahunSet = new Set(log.map(item => item.tanggal?.slice(0, 4)));
+  tahunSelect.innerHTML = `<option value="">Semua</option>`;
+  tahunSet.forEach(t => {
+    if (t) tahunSelect.innerHTML += `<option value="${t}">${t}</option>`;
+  });
+}
+
   let total = 0;
-  table.innerHTML = `<tr><th>Nama Barang</th><th>Jumlah</th><th>Harga Total</th><th>Tanggal</th></tr>`;
+  table.innerHTML = `<tr><th>Nama Barang</th><th>Jumlah</th><th>Harga</th><th>Supir</th><th>Tanggal</th></tr>`;
 
   log.forEach(item => {
     const cocokNama = item.nama.toLowerCase().includes(keyword);
@@ -52,7 +61,8 @@ function renderLog() {
           <td>${item.nama}</td>
           <td>${item.jumlah}</td>
           <td>Rp ${item.total.toLocaleString()}</td>
-          <td>${item.tanggal}</td>
+	  <td>${item.supir || "-"}</td>
+	 <td>${item.tanggal}</td>
         </tr>`;
       total += item.total;
     }
@@ -60,6 +70,7 @@ function renderLog() {
 
   totalDiv.innerText = "Total: Rp " + total.toLocaleString();
 }
+
 
 function urutkanStokAZ() {
   stok.sort((a, b) => a.nama.localeCompare(b.nama));
@@ -128,6 +139,7 @@ function simpanEdit() {
 }
 
 function ambilBarang() {
+  const namaSupir = document.getElementById("inputSupir").value;
   const index = document.getElementById("pilihBarang").value;
   const jumlahAmbil = parseInt(document.getElementById("jumlahAmbil").value);
 
@@ -139,6 +151,7 @@ function ambilBarang() {
   const total = stok[index].harga * jumlahAmbil;
 
   log.push({
+    supir: namaSupir,
     nama: stok[index].nama + " (" + stok[index].kondisi + ")",
     jumlah: jumlahAmbil,
     total,
@@ -373,5 +386,58 @@ function renderSelectSupir() {
 const namaSupir = document.getElementById("inputSupir").value;
 // ...
 log.push({ nama, jumlah, total, tanggal, supir: namaSupir });
-renderSelectSupir();
+renderSupir();
+renderSelectSupir(); // tambahkan ini juga
 
+let chart; // global supaya bisa di-destroy saat refresh
+
+function tampilkanGrafik() {
+  const dataRekap = {};
+
+  log.forEach(item => {
+    const nama = item.supir || "Tidak Diketahui";
+    if (!dataRekap[nama]) dataRekap[nama] = 0;
+    dataRekap[nama] += item.total;
+  });
+
+  const labels = Object.keys(dataRekap);
+  const data = Object.values(dataRekap);
+
+  const ctx = document.getElementById("grafikSupir").getContext("2d");
+
+  // Hapus chart lama (jika ada)
+  if (chart) chart.destroy();
+
+  chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Total Pengeluaran (Rp)",
+        data: data,
+        backgroundColor: "#3498db",
+        borderColor: "#2c3e50",
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => "Rp " + ctx.raw.toLocaleString()
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: value => "Rp " + value.toLocaleString()
+          }
+        }
+      }
+    }
+  });
+}

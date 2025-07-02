@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Aplikasi Pengeluaran Truk</title>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -96,6 +97,9 @@
     <h3>🛠️ Supir Ambil Barang</h3>
     <select id="pilihBarang"></select>
     <input id="jumlahAmbil" placeholder="Jumlah Ambil" type="number" />
+    <select id="inputSupir">
+     <option value="">-- Pilih Supir --</option>
+    </select>
     <button onclick="ambilBarang()">Ambil & Catat</button>
   </section>
 
@@ -121,15 +125,27 @@
     <div id="totalPengeluaran">Total: Rp 0</div>
   </section>
 
-  <select id="inputSupir">
-    <option value="">-- Pilih Supir --</option>
-  </select>
-
   <section>
     <h3>📊 Rekap Pengeluaran per Supir / Truk</h3>
     <button onclick="rekapPengeluaran()">🔄 Tampilkan Rekap</button>
     <button onclick="exportRekap()">📥 Ekspor Rekap ke Excel</button>
     <table id="tabelRekap"></table>
+  </section>
+
+  <section>
+    <h3>📈 Grafik Pengeluaran per Supir</h3>
+    <canvas id="grafikSupir" height="100"></canvas>
+      <label>Bulan:</label>
+        <select id="filterBulan">
+         <option value="">Semua</option>
+           ${[...Array(12)].map((_, i) => `<option value="${(i+1).toString().padStart(2, '0')}">${(i+1).toString().padStart(2, '0')}</option>`).join('')}
+        </select>
+
+      <label>Tahun:</label>
+        <select id="filterTahun">
+         <option value="">Semua</option>
+        </select>
+    <button onclick="tampilkanGrafik()">🔄 Refresh Grafik</button>
   </section>
 
   <script src="script.js"></script>
