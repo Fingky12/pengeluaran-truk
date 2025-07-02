@@ -27,7 +27,7 @@ function renderStok() {
 	  <button onclick="hapusStok(${i})" style="background:red;color:white;border:none;border-radius:5px;padding:5px;">Hapus</button>
 	</td>
       </tr>`;
-    
+
     select.innerHTML += `<option value="${i}">${item.nama} (${item.kondisi})</option>`;
   });
 }
@@ -172,4 +172,32 @@ function exportExcel() {
   XLSX.utils.book_append_sheet(workbook, worksheet, "Pengeluaran");
 
   XLSX.writeFile(workbook, "pengeluaran-truk.xlsx");
+}
+
+firebase.auth().onAuthStateChanged(user => {
+  const appSections = document.querySelectorAll("section");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginForm = document.getElementById("loginForm");
+
+  if (user) {
+    appSections.forEach(sec => sec.style.display = "block");
+    logoutBtn.style.display = "block";
+    loginForm.style.display = "none";
+  } else {
+    appSections.forEach(sec => sec.style.display = "none");
+    logoutBtn.style.display = "none";
+    loginForm.style.display = "block";
+  }
+});
+
+function loginAdmin() {
+  const email = document.getElementById("emailLogin").value;
+  const pass = document.getElementById("passwordLogin").value;
+  firebase.auth().signInWithEmailAndPassword(email, pass)
+    .then(() => alert("Login berhasil!"))
+    .catch(err => alert("Login gagal: " + err.message));
+}
+
+function logoutAdmin() {
+  firebase.auth().signOut();
 }
