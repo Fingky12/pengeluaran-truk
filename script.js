@@ -241,3 +241,137 @@ function tambahSupir() {
 }
 
 renderSupir();
+function renderSupir() {
+  const table = document.getElementById("tabelSupir");
+  table.innerHTML = `
+    <tr>
+      <th>Nama</th>
+      <th>No HP</th>
+      <th>Kendaraan</th>
+      <th>Aksi</th>
+    </tr>`;
+
+  supir.forEach((s, i) => {
+    table.innerHTML += `
+      <tr>
+        <td>${s.nama}</td>
+        <td>${s.nohp}</td>
+        <td>${s.kendaraan}</td>
+        <td>
+          <button onclick="editSupir(${i})" style="background:#3498db;color:#fff;border:none;border-radius:5px;padding:5px;">Edit</button>
+          <button onclick="hapusSupir(${i})" style="background:#e74c3c;color:#fff;border:none;border-radius:5px;padding:5px;">Hapus</button>
+        </td>
+      </tr>`;
+  });
+}
+
+let indexEditSupir = null;
+
+function editSupir(i) {
+  indexEditSupir = i;
+  const s = supir[i];
+  document.getElementById("namaSupir").value = s.nama;
+  document.getElementById("nohpSupir").value = s.nohp;
+  document.getElementById("kendaraanSupir").value = s.kendaraan;
+
+  document.querySelector("button[onclick='tambahSupir()']").style.display = "none";
+  if (!document.getElementById("btnSimpanSupir")) {
+    const btn = document.createElement("button");
+    btn.innerText = "💾 Simpan Edit";
+    btn.id = "btnSimpanSupir";
+    btn.onclick = simpanEditSupir;
+    document.querySelector("#namaSupir").parentElement.appendChild(btn);
+  }
+}
+
+function simpanEditSupir() {
+  const nama = document.getElementById("namaSupir").value;
+  const nohp = document.getElementById("nohpSupir").value;
+  const kendaraan = document.getElementById("kendaraanSupir").value;
+
+  if (!nama || !nohp || !kendaraan) return alert("Lengkapi semua data!");
+
+  supir[indexEditSupir] = { nama, nohp, kendaraan };
+  simpanData();
+  renderSupir();
+
+  document.getElementById("namaSupir").value = "";
+  document.getElementById("nohpSupir").value = "";
+  document.getElementById("kendaraanSupir").value = "";
+  indexEditSupir = null;
+
+  document.getElementById("btnSimpanSupir").remove();
+  document.querySelector("button[onclick='tambahSupir()']").style.display = "inline-block";
+}
+
+function hapusSupir(i) {
+  const yakin = confirm("Yakin ingin hapus data supir ini?");
+  if (!yakin) return;
+
+  supir.splice(i, 1);
+  simpanData();
+  renderSupir();
+}
+
+function rekapPengeluaran() {
+  const rekap = {};
+
+  log.forEach(item => {
+    const supirNama = item.supir || "Tidak Diketahui";
+    if (!rekap[supirNama]) {
+      rekap[supirNama] = 0;
+    }
+    rekap[supirNama] += item.total;
+  });
+
+  const table = document.getElementById("tabelRekap");
+  table.innerHTML = `<tr><th>Nama Supir</th><th>Total Pengeluaran</th></tr>`;
+
+  for (const nama in rekap) {
+    table.innerHTML += `
+      <tr>
+        <td>${nama}</td>
+        <td>Rp ${rekap[nama].toLocaleString()}</td>
+      </tr>`;
+  }
+}
+
+function exportRekap() {
+  const rekap = {};
+
+  log.forEach(item => {
+    const supirNama = item.supir || "Tidak Diketahui";
+    if (!rekap[supirNama]) {
+      rekap[supirNama] = 0;
+    }
+    rekap[supirNama] += item.total;
+  });
+
+  // Konversi ke format array objek
+  const dataExport = Object.keys(rekap).map(nama => ({
+    Supir: nama,
+    TotalPengeluaran: rekap[nama]
+  }));
+
+  // Buat file Excel
+  const worksheet = XLSX.utils.json_to_sheet(dataExport);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "RekapPengeluaran");
+
+  XLSX.writeFile(workbook, "rekap_pengeluaran_per_supir.xlsx");
+}
+
+function renderSelectSupir() {
+  const supirSelect = document.getElementById("inputSupir");
+  if (!supirSelect) return;
+  supirSelect.innerHTML = `<option value="">-- Pilih Supir --</option>`;
+  supir.forEach(s => {
+    supirSelect.innerHTML += `<option value="${s.nama}">${s.nama} (${s.kendaraan})</option>`;
+  });
+}
+
+const namaSupir = document.getElementById("inputSupir").value;
+// ...
+log.push({ nama, jumlah, total, tanggal, supir: namaSupir });
+renderSelectSupir();
+

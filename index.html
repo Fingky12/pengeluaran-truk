@@ -121,6 +121,17 @@
     <div id="totalPengeluaran">Total: Rp 0</div>
   </section>
 
+  <select id="inputSupir">
+    <option value="">-- Pilih Supir --</option>
+  </select>
+
+  <section>
+    <h3>📊 Rekap Pengeluaran per Supir / Truk</h3>
+    <button onclick="rekapPengeluaran()">🔄 Tampilkan Rekap</button>
+    <button onclick="exportRekap()">📥 Ekspor Rekap ke Excel</button>
+    <table id="tabelRekap"></table>
+  </section>
+
   <script src="script.js"></script>
 </body>
 </html>
