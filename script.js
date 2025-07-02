@@ -95,16 +95,18 @@ function tambahStok() {
   const kondisi = document.getElementById("kondisiBarang").value;
   const harga = parseInt(document.getElementById("hargaBarang").value);
   const jumlah = parseInt(document.getElementById("jumlahBarang").value);
+  const kategori = document.getElementById("kategoriBarang").value;
 
-  if (!nama || isNaN(harga) || isNaN(jumlah)) return alert("Lengkapi semua data!");
+  if (!nama || isNaN(harga) || isNaN(jumlah) || isNaN(kategori)) return alert("Lengkapi semua data!");
 
-  stok.push({ nama, kondisi, harga, jumlah });
+  stok.push({ nama, kondisi, harga, jumlah, kategori });
   simpanData();
   renderStok();
 
   document.getElementById("namaBarang").value = "";
   document.getElementById("hargaBarang").value = "";
   document.getElementById("jumlahBarang").value = "";
+  document.getElementHyId("kategoriBarang").value = "";
 }
 
 function hapusStok(index) {
@@ -126,7 +128,7 @@ function editStok(index) {
   document.getElementById("editKondisi").value = item.kondisi;
   document.getElementById("editHarga").value = item.harga;
   document.getElementById("editJumlah").value = item.jumlah;
-
+  document.getElementHyId("editKategori").value = item.kategori
   document.getElementById("formEdit").style.display = "block";
 }
 
