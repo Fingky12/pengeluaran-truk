@@ -201,3 +201,43 @@ function loginAdmin() {
 function logoutAdmin() {
   firebase.auth().signOut();
 }
+
+let supir = JSON.parse(localStorage.getItem("supir")) || [];
+
+function simpanData() {
+  localStorage.setItem("stok", JSON.stringify(stok));
+  localStorage.setItem("log", JSON.stringify(log));
+  localStorage.setItem("supir", JSON.stringify(supir)); // tambahkan ini
+}
+
+function renderSupir() {
+  const table = document.getElementById("tabelSupir");
+  table.innerHTML = `<tr><th>Nama</th><th>No HP</th><th>Kendaraan</th></tr>`;
+
+  supir.forEach(s => {
+    table.innerHTML += `
+      <tr>
+        <td>${s.nama}</td>
+        <td>${s.nohp}</td>
+        <td>${s.kendaraan}</td>
+      </tr>`;
+  });
+}
+
+function tambahSupir() {
+  const nama = document.getElementById("namaSupir").value;
+  const nohp = document.getElementById("nohpSupir").value;
+  const kendaraan = document.getElementById("kendaraanSupir").value;
+
+  if (!nama || !nohp || !kendaraan) return alert("Isi semua data!");
+
+  supir.push({ nama, nohp, kendaraan });
+  simpanData();
+  renderSupir();
+
+  document.getElementById("namaSupir").value = "";
+  document.getElementById("nohpSupir").value = "";
+  document.getElementById("kendaraanSupir").value = "";
+}
+
+renderSupir();
