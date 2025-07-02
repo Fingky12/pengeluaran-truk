@@ -64,11 +64,14 @@
   <section>
     <h3>➕ Tambah Barang ke Stok</h3>
     <button onclick="urutkanStokAZ()">🔤 Urutkan A-Z</button>
+    <input id="kategoriBarang" placeholder="Kategori (Ban/Oli/Sparepart)" />
     <input id="namaBarang" placeholder="Nama Barang" />
     <select id="kondisiBarang">
       <option>Baru</option>
       <option>Bekas</option>
     </select>
+    <button onclick="filterStokMenipis()">🔍 Tampilkan Stok Menipis</button>
+    <button onclick="renderStok()">🔁 Tampilkan Semua</button>
     <input id="hargaBarang" placeholder="Harga Satuan" type="number" />
     <input id="jumlahBarang" placeholder="Jumlah" type="number" />
     <button onclick="tambahStok()">Tambah ke Stok</button>
@@ -77,6 +80,10 @@
   <!-- Daftar Stok -->
   <section>
     <h3>📦 Stok Barang</h3>
+    <input id="cariNamaBarang" placeholder="🔍 Cari Nama Barang" oninput="renderStok()" />
+    <select id="filterKategori" onchange="renderStok()">
+      <option value="">📦 Semua Kategori</option>
+    </select>
     <table id="tabelStok">
 	<div id="formEdit" style="display:none; margin-top:15px;">
 	  <h4>✏️ Edit Barang</h4>

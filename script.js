@@ -8,27 +8,39 @@ function simpanData() {
 
 function renderStok() {
   const table = document.getElementById("tabelStok");
-  const select = document.getElementById("pilihBarang");
+  const filterKategori = document.getElementById("filterKategori")?.value || "";
+  const keyword = document.getElementById("cariNamaBarang")?.value?.toLowerCase() || "";
 
-  table.innerHTML = `<tr>
-    <th>Nama</th><th>Kondisi</th><th>Harga</th><th>Stok</th><th>Aksi</th>
-  </tr>`;
-  select.innerHTML = "";
+  const kategoriUnik = [...new Set(stok.map(s => s.kategori || "Lainnya"))];
+  const select = document.getElementById("filterKategori");
+  if (select) {
+    select.innerHTML = `<option value="">📦 Semua Kategori</option>`;
+    kategoriUnik.forEach(k => {
+      select.innerHTML += `<option value="${k}">${k}</option>`;
+    });
+    select.value = filterKategori; // biar tetap sesuai pilihan sebelumnya
+  }
+
+  table.innerHTML = `<tr><th>Nama</th><th>Kategori</th><th>Jumlah</th><th>Harga</th><th>Total</th><th>Aksi</th></tr>`;
 
   stok.forEach((item, i) => {
-    table.innerHTML += `
-      <tr>
-        <td>${item.nama}</td>
-        <td>${item.kondisi}</td>
-        <td>Rp ${item.harga.toLocaleString()}</td>
-        <td>${item.jumlah}</td>
-	<td>
-	  <button onclick="editStok(${i})" style="background:#3498db;color:white;border:none;border-radius:5px;padding:5px;">Edit</button>
-	  <button onclick="hapusStok(${i})" style="background:red;color:white;border:none;border-radius:5px;padding:5px;">Hapus</button>
-	</td>
-      </tr>`;
+    const cocokKategori = !filterKategori || item.kategori === filterKategori;
+    const cocokNama = !keyword || item.nama.toLowerCase().includes(keyword);
 
-    select.innerHTML += `<option value="${i}">${item.nama} (${item.kondisi})</option>`;
+    if (cocokKategori && cocokNama) {
+      table.innerHTML += `
+        <tr>
+          <td>${item.nama}</td>
+          <td>${item.kategori || "-"}</td>
+          <td>${item.jumlah}</td>
+          <td>Rp ${item.harga.toLocaleString()}</td>
+          <td>Rp ${(item.harga * item.jumlah).toLocaleString()}</td>
+          <td>
+            <button onclick="editStok(${i})">✏️</button>
+            <button onclick="hapusStok(${i})">🗑️</button>
+          </td>
+        </tr>`;
+    }
   });
 }
 
@@ -438,6 +450,30 @@ function tampilkanGrafik() {
           }
         }
       }
+    }
+  });
+}
+
+function filterStokMenipis() {
+  const table = document.getElementById("tabelStok");
+  const MINIMAL = 3; // batas stok minimum
+
+  table.innerHTML = `<tr><th>Nama</th><th>Kategori</th><th>Jumlah</th><th>Harga</th><th>Total</th><th>Aksi</th></tr>`;
+
+  stok.forEach((item, i) => {
+    if (item.jumlah <= MINIMAL) {
+      table.innerHTML += `
+        <tr>
+          <td>${item.nama}</td>
+          <td>${item.kategori || "-"}</td>
+          <td style="color:red;"><strong>${item.jumlah}</strong></td>
+          <td>Rp ${item.harga.toLocaleString()}</td>
+          <td>Rp ${(item.harga * item.jumlah).toLocaleString()}</td>
+          <td>
+            <button onclick="editStok(${i})">✏️</button>
+            <button onclick="hapusStok(${i})">🗑️</button>
+          </td>
+        </tr>`;
     }
   });
 }
