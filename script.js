@@ -36,8 +36,8 @@ function renderStok() {
           <td>Rp ${item.harga.toLocaleString()}</td>
           <td>Rp ${(item.harga * item.jumlah).toLocaleString()}</td>
           <td>
-            <button onclick="editStok(${i})">✏️</button>
-            <button onclick="hapusStok(${i})">🗑️</button>
+            <button onclick="editStok(${i})">Edit</button>
+            <button onclick="hapusStok(${i})">Hapus</button>
           </td>
         </tr>`;
     }
@@ -102,6 +102,7 @@ function tambahStok() {
   stok.push({ nama, kondisi, harga, jumlah, kategori });
   simpanData();
   renderStok();
+  renderSelectBarang();
 
   document.getElementById("namaBarang").value = "";
   document.getElementById("hargaBarang").value = "";
@@ -175,12 +176,16 @@ function ambilBarang() {
   simpanData();
   renderStok();
   renderLog();
+  renderSelectBarabg();
+  renderSelectSupir();
 
   document.getElementById("jumlahAmbil").value = "";
 }
 
 renderStok();
 renderLog();
+renderSelectBarang();
+renderSelectSupir();
 
 function exportExcel() {
   const keyword = document.getElementById("filterBarang")?.value.toLowerCase() || "";

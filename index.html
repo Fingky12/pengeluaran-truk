@@ -99,17 +99,6 @@
     </table>
   </section>
 
-  <!-- Form Ambil Barang -->
-  <section>
-    <h3>🛠️ Supir Ambil Barang</h3>
-    <select id="pilihBarang"></select>
-    <input id="jumlahAmbil" placeholder="Jumlah Ambil" type="number" />
-    <select id="inputSupir">
-     <option value="">-- Pilih Supir --</option>
-    </select>
-    <button onclick="ambilBarang()">Ambil & Catat</button>
-  </section>
-
   <!-- Form Data Supir -->
   <section>
   <h3>🚹 Data Supir</h3>			   
@@ -118,6 +107,18 @@
     <input id="kendaraanSupir" placeholder="Kendaraan" />
     <button onclick="tambahSupir()">Tambah Supir</button>
     <table id="tabelSupir"></table>
+  </section>
+
+  <!-- Form Ambil Barang -->
+  <section>
+    <h3>🛠️ Supir Ambil Barang</h3>
+    <select id="pilihBarang">
+    </select>
+    <input id="jumlahAmbil" placeholder="Jumlah Ambil" type="number" />
+    <select id="inputSupir">
+     <option value="">-- Pilih Supir --</option>
+    </select>
+    <button onclick="ambilBarang()">Ambil & Catat</button>
   </section>
 
   <!-- Log Pengeluaran -->
