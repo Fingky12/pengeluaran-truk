@@ -70,8 +70,6 @@
       <option>Baru</option>
       <option>Bekas</option>
     </select>
-    <button onclick="filterStokMenipis()">🔍 Tampilkan Stok Menipis</button>
-    <button onclick="renderStok()">🔁 Tampilkan Semua</button>
     <input id="hargaBarang" placeholder="Harga Satuan" type="number" />
     <input id="jumlahBarang" placeholder="Jumlah" type="number" />
     <button onclick="tambahStok()">Tambah ke Stok</button>
@@ -81,6 +79,8 @@
   <section>
     <h3>📦 Stok Barang</h3>
     <input id="cariNamaBarang" placeholder="🔍 Cari Nama Barang" oninput="renderStok()" />
+    <button onclick="filterStokMenipis()">🔍 Tampilkan Stok Menipis</button>
+    <button onclick="renderStok()">🔁 Tampilkan Semua</button>
     <select id="filterKategori" onchange="renderStok()">
       <option value="">📦 Semua Kategori</option>
     </select>
