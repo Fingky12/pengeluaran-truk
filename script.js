@@ -97,16 +97,24 @@ function tambahStok() {
   const jumlah = parseInt(document.getElementById("jumlahBarang").value);
   const kategori = document.getElementById("kategoriBarang").value;
 
-  if (!nama || isNaN(harga) || isNaN(jumlah) || isNaN(kategori)) return alert("Lengkapi semua data!");
+  // Cek validasi input
+  if (!nama || !kondisi || isNaN(harga) || isNaN(jumlah) || !kategori) {
+    return alert("Lengkapi semua data terlebih dahulu!");
+  }
 
+  // Tambah ke array stok
   stok.push({ nama, kondisi, harga, jumlah, kategori });
+
+  // Simpan dan render ulang
   simpanData();
   renderStok();
 
+  // Reset form input
   document.getElementById("namaBarang").value = "";
+  document.getElementById("kondisiBarang").value = "";  // Tambahin ini juga bro
   document.getElementById("hargaBarang").value = "";
   document.getElementById("jumlahBarang").value = "";
-  document.getElementHyId("kategoriBarang").value = "";
+  document.getElementById("kategoriBarang").value = ""; // ← ini typo sebelumnya!
 }
 
 function hapusStok(index) {
@@ -161,19 +169,28 @@ function renderSelectBarang() {
     select.innerHTML += `<option value="${index}">${item.nama} (${item.jumlah} pcs)</option>`;
   });
 }
+ renderSelectBarang();
 
 function ambilBarang() {
   const namaSupir = document.getElementById("inputSupir").value;
   const index = document.getElementById("pilihBarang").value;
   const jumlahAmbil = parseInt(document.getElementById("jumlahAmbil").value);
 
+  // Validasi
+  if (!namaSupir || index === "" || isNaN(jumlahAmbil) || jumlahAmbil <= 0) {
+    return alert("Lengkapi semua data dengan benar!");
+  }
+
+  if (!stok[index]) return alert("Barang tidak ditemukan!");
   if (stok[index].jumlah < jumlahAmbil) return alert("Stok tidak cukup!");
 
+  // Kurangi stok
   stok[index].jumlah -= jumlahAmbil;
 
   const tanggal = new Date().toISOString().split("T")[0];
   const total = stok[index].harga * jumlahAmbil;
 
+  // Simpan ke log
   log.push({
     supir: namaSupir,
     nama: stok[index].nama + " (" + stok[index].kondisi + ")",
@@ -182,19 +199,26 @@ function ambilBarang() {
     tanggal
   });
 
+  
+function init() {
+  renderStok();
+  renderLog();
+  renderSelectBarang();
+  renderSelectSupir();
+}
+  // Update UI dan simpan
   simpanData();
   renderStok();
   renderLog();
   renderSelectBarang();
   renderSelectSupir();
 
+  // Reset form
   document.getElementById("jumlahAmbil").value = "";
+  document.getElementById("pilihBarang").value = "";
+  document.getElementById("inputSupir").value = "";
 }
-
-renderStok();
-renderLog();
-renderSelectBarang();
-renderSelectSupir();
+init();
 
 function exportExcel() {
   const keyword = document.getElementById("filterBarang")?.value.toLowerCase() || "";
