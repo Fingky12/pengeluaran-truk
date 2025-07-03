@@ -18,12 +18,21 @@
     <button onclick="showSection('supir')">🧍‍♂️ Data Supir</button>
     <button onclick="showSection('pengeluaran')">💸 Pengeluaran</button>
     <button onclick="showSection('servis')">🛠️ Jadwal Servis</button>
+    <button onclick="showSection('sparepart')">🔩 Data Sparepart</button>
   </nav>
 
   <main>
     <section id="dashboard" class="active">
       <h2>📊 Dashboard</h2>
       <div id="summaryCards"></div>
+    </section>
+<!-- Tambah di <main> -->
+    <section id="sparepart">
+      <h2>🔩 Data Sparepart</h2>
+      <input id="namaSparepart" placeholder="Nama Sparepart">
+      <input id="hargaSparepart" type="number" placeholder="Harga">
+      <button onclick="tambahSparepart()">+ Tambah Sparepart</button>
+      <div id="listSparepart"></div>
     </section>
 
     <section id="truk">
