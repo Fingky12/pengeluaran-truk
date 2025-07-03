@@ -1,4 +1,3 @@
-
 let stok = JSON.parse(localStorage.getItem("stok")) || [];
 let log = JSON.parse(localStorage.getItem("log")) || [];
 
@@ -249,12 +248,13 @@ firebase.auth().onAuthStateChanged(user => {
     appSections.forEach(sec => sec.style.display = "block");
     logoutBtn.style.display = "block";
     loginForm.style.display = "none";
-  } else {
+  }
+  else {
     appSections.forEach(sec => sec.style.display = "none");
     logoutBtn.style.display = "none";
     loginForm.style.display = "block";
   }
-});
+}
 
 function loginAdmin() {
   const email = document.getElementById("emailLogin").value;
