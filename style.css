@@ -60,7 +60,6 @@ th, td {
 }
 
 
-body {
 
 /* ✅ RESPONSIVE LAYOUT */
 @media (min-width: 600px) {
@@ -71,8 +70,8 @@ body {
 
   .form-row > * {
     flex: 1;
+   }
   }
-}
 
 @media (max-width: 480px) {
   body {
