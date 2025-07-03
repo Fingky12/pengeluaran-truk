@@ -113,7 +113,7 @@ function editStok(index) {
   document.getElementById("editKondisi").value = item.kondisi;
   document.getElementById("editHarga").value = item.harga;
   document.getElementById("editJumlah").value = item.jumlah;
-  document.getElementHyId("editKategori").value = item.kategori
+  document.getElementHyId("editKategori").value = item.kategori;
   document.getElementById("formEdit").style.display = "block";
 }
 
