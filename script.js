@@ -42,6 +42,32 @@ function renderStok() {
   });
 }
 
+function login() {
+  const password = document.getElementById("passwordLogin").value;
+  if (password === "admin123") {
+    localStorage.setItem("isLogin", "true");
+    alert("Login berhasil!");
+    location.reload(); // Reload untuk update tampilan
+  } else {
+    alert("Password salah!");
+  }
+}
+
+function cekLogin() {
+  const isLogin = localStorage.getItem("isLogin") === "true";
+  
+  const kontenApp = document.getElementById("kontenApp");  // Semua fitur utama
+  const formLogin = document.getElementById("formLogin");  // Form login saja
+
+  if (isLogin) {
+    kontenApp.style.display = "block";
+    formLogin.style.display = "none";
+  } else {
+    kontenApp.style.display = "none";
+    formLogin.style.display = "block";
+  }
+}
+
 function renderLog() {
   const table = document.getElementById("tabelLog");
   const totalDiv = document.getElementById("totalPengeluaran");
