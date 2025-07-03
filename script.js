@@ -152,6 +152,16 @@ function simpanEdit() {
   indexEdit = null;
 }
 
+function renderSelectBarang() {
+  const select = document.getElementById("pilihBarang");
+  if (!select) return;
+
+  select.innerHTML = `<option value="">-- Pilih Barang --</option>`;
+  stok.forEach((item, index) => {
+    select.innerHTML += `<option value="${index}">${item.nama} (${item.jumlah} pcs)</option>`;
+  });
+}
+
 function ambilBarang() {
   const namaSupir = document.getElementById("inputSupir").value;
   const index = document.getElementById("pilihBarang").value;

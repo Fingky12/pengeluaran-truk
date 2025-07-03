@@ -63,7 +63,6 @@
   <!-- Form Tambah Barang ke Stok -->
   <section>
     <h3>➕ Tambah Barang ke Stok</h3>
-    <button onclick="urutkanStokAZ()">🔤 Urutkan A-Z</button>
     <input id="kategoriBarang" placeholder="Kategori (Ban/Oli/Sparepart)" />
     <input id="namaBarang" placeholder="Nama Barang" />
     <select id="kondisiBarang">
@@ -79,11 +78,12 @@
   <section>
     <h3>📦 Stok Barang</h3>
     <input id="cariNamaBarang" placeholder="🔍 Cari Nama Barang" oninput="renderStok()" />
-    <button onclick="filterStokMenipis()">🔍 Tampilkan Stok Menipis</button>
-    <button onclick="renderStok()">🔁 Tampilkan Semua</button>
     <select id="filterKategori" onchange="renderStok()">
       <option value="">📦 Semua Kategori</option>
     </select>
+    <button onclick="filterStokMenipis()">🔍 Tampilkan Stok Menipis</button>
+    <button onclick="renderStok()">🔁 Tampilkan Semua</button>
+    <button onclick="urutkanStokAZ()">🔤 Urutkan A-Z</button>
     <table id="tabelStok">
 	<div id="formEdit" style="display:none; margin-top:15px;">
 	  <h4>✏️ Edit Barang</h4>
@@ -126,7 +126,7 @@
     <h3>📋 Riwayat Pengeluaran</h3>
     <div style="margin-bottom:10px;">
       <input type="text" id="filterBarang" placeholder="🔍 Filter Nama Barang" oninput="renderLog()">
-      <input type="date" id="filterTanggal" oninput="renderLog()">
+      <input type="date" id="filterTanggal"placeholder="DD/MM/YYYY" oninput="renderLog()">
     </div>
     <button onclick="exportExcel()">📥 Ekspor ke Excel</button>
     <table id="tabelLog"></table>
