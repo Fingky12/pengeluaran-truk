@@ -1,3 +1,4 @@
+
 let stok = JSON.parse(localStorage.getItem("stok")) || [];
 let log = JSON.parse(localStorage.getItem("log")) || [];
 
