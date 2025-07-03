@@ -21,8 +21,6 @@ function renderStok() {
     select.value = filterKategori; // biar tetap sesuai pilihan sebelumnya
   }
 
-  table.innerHTML = `<tr><th>Nama</th><th>Kategori</th><th>Jumlah</th><th>Harga</th><th>Total</th><th>Aksi</th></tr>`;
-
   stok.forEach((item, i) => {
     const cocokKategori = !filterKategori || item.kategori === filterKategori;
     const cocokNama = !keyword || item.nama.toLowerCase().includes(keyword);
@@ -61,28 +59,7 @@ function isiSelectTahun() {
 }
 
   let total = 0;
-  table.innerHTML = `<tr><th>Nama Barang</th><th>Jumlah</th><th>Harga</th><th>Supir</th><th>Tanggal</th></tr>`;
-
-  log.forEach(item => {
-    const cocokNama = item.nama.toLowerCase().includes(keyword);
-    const cocokTanggal = !tanggalFilter || item.tanggal === tanggalFilter;
-
-    if (cocokNama && cocokTanggal) {
-      table.innerHTML += `
-        <tr>
-          <td>${item.nama}</td>
-          <td>${item.jumlah}</td>
-          <td>Rp ${item.total.toLocaleString()}</td>
-	  <td>${item.supir || "-"}</td>
-	 <td>${item.tanggal}</td>
-        </tr>`;
-      total += item.total;
-    }
-  });
-
-  totalDiv.innerText = "Total: Rp " + total.toLocaleString();
-}
-
+  table.innerHTML = `<tr><th>Nama Barang</th><th>Jumlah</th><th>Harga</th><th>Supir</th><th>Tanggal</th><th>Aksi</th></tr>`;
 
 function urutkanStokAZ() {
   stok.sort((a, b) => a.nama.localeCompare(b.nama));
@@ -248,8 +225,7 @@ firebase.auth().onAuthStateChanged(user => {
     appSections.forEach(sec => sec.style.display = "block");
     logoutBtn.style.display = "block";
     loginForm.style.display = "none";
-  }
-  else {
+  }  else {
     appSections.forEach(sec => sec.style.display = "none");
     logoutBtn.style.display = "none";
     loginForm.style.display = "block";
@@ -259,8 +235,8 @@ firebase.auth().onAuthStateChanged(user => {
 function loginAdmin() {
   const email = document.getElementById("emailLogin").value;
   const pass = document.getElementById("passwordLogin").value;
-  firebase.auth().signInWithEmailAndPassword(email, pass)
-    .then(() => alert("Login berhasil!"))
+  firebase.auth().signInWithEmailAndPassword(email, pass);
+    .then(() => alert("Login berhasil!"));
     .catch(err => alert("Login gagal: " + err.message));
 }
 
