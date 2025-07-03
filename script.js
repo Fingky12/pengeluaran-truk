@@ -254,7 +254,7 @@ firebase.auth().onAuthStateChanged(user => {
     logoutBtn.style.display = "none";
     loginForm.style.display = "block";
   }
-}
+});
 
 function loginAdmin() {
   const email = document.getElementById("emailLogin").value;
