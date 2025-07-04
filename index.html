@@ -38,7 +38,18 @@
         <option>Rusak</option>
      </select>
       <button onclick="tambahTruk()">+ Tambah Truk</button>
-      <div id="dataTruk"></div>
+      <table border="1" width="100%">
+        <thead>
+          <tr>
+           <th>No</th>
+           <th>Plat</th>
+           <th>Tipe</th>
+           <th>Tahun</th>
+           <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="dataTruk"></tbody>
+      </table>
     </section>
     
     <section id="supir">
@@ -51,7 +62,19 @@
         <option>Cuti</option>
      </select>
        <button onclick="tambahSupir()">+ Tambah Supir</button>
-       <div id="dataSupir"></div>
+       <table border="1" width="100%">
+         <thead>
+           <tr>
+             <th>No</th>
+             <th>Nama</th>
+             <th>No HP</th>
+             <th>Truk</th>
+             <th>Status</th>
+           </tr>
+         </thead>
+         <tbody id="dataSupir"></tbody>
+       </table>       
+
     </section>
     
     <section id="pengeluaran">
@@ -78,7 +101,7 @@
       <input id="namaSparepart" placeholder="Nama Sparepart">
       <input id="hargaSparepart" type="number" placeholder="Harga (Rp)">
       <button onclick="tambahSparepart()">+ Tambah</button>
-      <div id="listSparepart"></div>
+      
     </section>
   </main>
 
