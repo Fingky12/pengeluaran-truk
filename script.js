@@ -28,12 +28,17 @@ function tambahTruk() {
   document.getElementById("tipeTruk").value = "";
   document.getElementById("tahunTruk").value = "";
 }
-
 function tampilkanTruk() {
   const out = document.getElementById("dataTruk");
-  out.innerHTML = "<ul>" + trukList.map(t =>
-    `<li>${t.plat} - ${t.tipe} (${t.tahun}) [${t.status}]</li>`
-  ).join("") + "</ul>";
+  out.innerHTML = trukList.map((t, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${t.plat}</td>
+      <td>${t.tipe}</td>
+      <td>${t.tahun}</td>
+      <td>${t.status}</td>
+    </tr>
+  `).join("");
 }
 
 // ========== 🧍‍♂️ SUPIR ==========
@@ -59,12 +64,17 @@ function tambahSupir() {
   document.getElementById("hpSupir").value = "";
   document.getElementById("trukSupir").value = "";
 }
-
 function tampilkanSupir() {
   const out = document.getElementById("dataSupir");
-  out.innerHTML = "<ul>" + supirList.map(s =>
-    `<li>${s.nama} (${s.hp}) - Truk: ${s.truk} [${s.status}]</li>`
-  ).join("") + "</ul>";
+  out.innerHTML = supirList.map((s, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${s.nama}</td>
+      <td>${s.hp}</td>
+      <td>${s.truk}</td>
+      <td>${s.status}</td>
+    </tr>
+  `).join("");
 }
 
 // ========== 💸 PENGELUARAN ==========
@@ -94,9 +104,15 @@ function tambahPengeluaran() {
 
 function tampilkanPengeluaran() {
   const out = document.getElementById("dataPengeluaran");
-  out.innerHTML = "<ul>" + pengeluaranList.map(p =>
-    `<li>${p.tgl} - ${p.truk} - ${p.jenis} = Rp ${p.jumlah.toLocaleString()}</li>`
-  ).join("") + "</ul>";
+  out.innerHTML = pengeluaranList.map((p, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${p.tgl}</td>
+      <td>${p.truk}</td>
+      <td>${p.jenis}</td>
+      <td>${p.jumlah.toLocaleString()}</td>
+    </tr>
+  `).join("");
 }
 
 // ========== 🛠️ SERVIS ==========
@@ -124,9 +140,14 @@ function tambahServis() {
 
 function tampilkanServis() {
   const out = document.getElementById("dataServis");
-  out.innerHTML = "<ul>" + servisList.map(s =>
-    `<li>${s.tgl} - ${s.plat}: ${s.deskripsi}</li>`
-  ).join("") + "</ul>";
+  out.innerHTML = servisList.map((s, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${s.tgl}</td>
+      <td>${s.plat}</td>
+      <td>${s.deskripsi}</td>
+    </tr>
+  `).join("");
 }
 
 // ========== 🔩 SPAREPART ==========
@@ -151,10 +172,14 @@ function tambahSparepart() {
 }
 
 function tampilkanSparepart() {
-  const list = document.getElementById("listSparepart");
-  list.innerHTML = "<ul>" + spareparts.map(s => 
-    `<li>${s.nama} - Rp ${s.harga.toLocaleString()}</li>`
-  ).join("") + "</ul>";
+  const out = document.getElementById("listSparepart");
+  out.innerHTML = spareparts.map((s, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${s.nama}</td>
+      <td>${s.harga.toLocaleString()}</td>
+    </tr>
+  `).join("");
 }
 
 // ========== JALANKAN SAAT LOAD ==========
