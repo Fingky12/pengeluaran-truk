@@ -28,17 +28,12 @@ function tambahTruk() {
   document.getElementById("tipeTruk").value = "";
   document.getElementById("tahunTruk").value = "";
 }
+
 function tampilkanTruk() {
   const out = document.getElementById("dataTruk");
-  out.innerHTML = trukList.map((t, i) => `
-    <tr>
-      <td>${i + 1}</td>
-      <td>${t.plat}</td>
-      <td>${t.tipe}</td>
-      <td>${t.tahun}</td>
-      <td>${t.status}</td>
-    </tr>
-  `).join("");
+  out.innerHTML = "<ul>" + trukList.map(t =>
+    `<li>${t.plat} - ${t.tipe} (${t.tahun}) [${t.status}]</li>`
+  ).join("") + "</ul>";
 }
 
 // ========== 🧍‍♂️ SUPIR ==========
@@ -66,15 +61,9 @@ function tambahSupir() {
 }
 function tampilkanSupir() {
   const out = document.getElementById("dataSupir");
-  out.innerHTML = supirList.map((s, i) => `
-    <tr>
-      <td>${i + 1}</td>
-      <td>${s.nama}</td>
-      <td>${s.hp}</td>
-      <td>${s.truk}</td>
-      <td>${s.status}</td>
-    </tr>
-  `).join("");
+  out.innerHTML = "<ul>" + trukList.map(t =>
+    `<li>${t.nama} - ${t.hp} (${t.truk}) [${t.status}]</li>`
+  ).join("") + "</ul>";
 }
 
 // ========== 💸 PENGELUARAN ==========
