@@ -26,45 +26,59 @@
       <h2>📊 Dashboard</h2>
       <div id="summaryCards"></div>
     </section>
-<!-- Tambah di <main> -->
-    <section id="sparepart">
-      <h2>🔩 Data Sparepart</h2>
-      <input id="namaSparepart" placeholder="Nama Sparepart">
-      <input id="hargaSparepart" type="number" placeholder="Harga">
-      <button onclick="tambahSparepart()">+ Tambah Sparepart</button>
-      <div id="listSparepart"></div>
-    </section>
 
     <section id="truk">
       <h2>🚚 Data Truk</h2>
       <input id="platTruk" placeholder="Plat Nomor">
       <input id="tipeTruk" placeholder="Tipe/Model">
       <input id="tahunTruk" type="number" placeholder="Tahun">
-    <select id="statusTruk">
-       <option>Aktif</option>
-       <option>Servis</option>
-       <option>Rusak</option>
-    </select>
+     <select id="statusTruk">
+        <option>Aktif</option>
+        <option>Servis</option>
+        <option>Rusak</option>
+     </select>
       <button onclick="tambahTruk()">+ Tambah Truk</button>
       <div id="dataTruk"></div>
     </section>
-
+    
     <section id="supir">
       <h2>🧍‍♂️ Data Supir</h2>
-      <button onclick="tambahSupir()">+ Tambah Supir</button>
-      <div id="dataSupir"></div>
+      <input id="namaSupir" placeholder="Nama Supir">
+      <input id="hpSupir" placeholder="No HP">
+      <input id="trukSupir" placeholder="Plat Truk yang Dipakai">
+     <select id="statusSupir">
+        <option>Aktif</option>
+        <option>Cuti</option>
+     </select>
+       <button onclick="tambahSupir()">+ Tambah Supir</button>
+       <div id="dataSupir"></div>
     </section>
-
+    
     <section id="pengeluaran">
-      <h2>💸 Pengeluaran Truk</h2>
-      <button onclick="tambahPengeluaran()">+ Tambah Pengeluaran</button>
-      <div id="dataPengeluaran"></div>
+       <h2>💸 Pengeluaran Truk</h2>
+       <input id="tglPengeluaran" type="date">
+       <input id="jenisPengeluaran" placeholder="Jenis (BBM, Ban, dll)">
+       <input id="jumlahPengeluaran" type="number" placeholder="Jumlah (Rp)">
+       <input id="trukPengeluaran" placeholder="Plat Truk">
+       <button onclick="tambahPengeluaran()">+ Tambah</button>
+       <div id="dataPengeluaran"></div>
     </section>
 
     <section id="servis">
       <h2>🛠️ Jadwal & Riwayat Servis</h2>
-      <button onclick="tambahServis()">+ Tambah Jadwal</button>
+      <input id="tglServis" type="date">
+      <input id="platServis" placeholder="Plat Truk">
+      <input id="deskripsiServis" placeholder="Deskripsi Servis">
+      <button onclick="tambahServis()">+ Tambah</button>
       <div id="dataServis"></div>
+    </section>
+
+    <section id="sparepart">
+      <h2>🔩 Data Sparepart</h2>
+      <input id="namaSparepart" placeholder="Nama Sparepart">
+      <input id="hargaSparepart" type="number" placeholder="Harga (Rp)">
+      <button onclick="tambahSparepart()">+ Tambah</button>
+      <div id="listSparepart"></div>
     </section>
   </main>
 
