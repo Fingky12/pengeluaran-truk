@@ -1,185 +1,72 @@
-// Navigasi antar halaman
 function showSection(id) {
   document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-// ========== 🚚 TRUK ==========
-let trukList = JSON.parse(localStorage.getItem("trukList")) || [];
-
-function simpanTruk() {
-  localStorage.setItem("trukList", JSON.stringify(trukList));
+function logout() {
+  alert("Logout berhasil!");
+  // nanti redirect login admin
 }
 
 function tambahTruk() {
-  const plat = document.getElementById("platTruk").value;
-  const tipe = document.getElementById("tipeTruk").value;
-  const tahun = document.getElementById("tahunTruk").value;
-  const status = document.getElementById("statusTruk").value;
-
-  if (!plat || !tipe || !tahun) return alert("Lengkapi data truk!");
-
-  trukList.push({ plat, tipe, tahun, status });
-  simpanTruk();
-  tampilkanTruk();
-
-  // Reset input
-  document.getElementById("platTruk").value = "";
-  document.getElementById("tipeTruk").value = "";
-  document.getElementById("tahunTruk").value = "";
-}
-
-function tampilkanTruk() {
-  const out = document.getElementById("dataTruk");
-  out.innerHTML = "<ul>" + trukList.map(t =>
-    `<li>${t.plat} - ${t.tipe} (${t.tahun}) [${t.status}]</li>`
-  ).join("") + "</ul>";
-}
-
-// ========== 🧍‍♂️ SUPIR ==========
-let supirList = JSON.parse(localStorage.getItem("supirList")) || [];
-
-function simpanSupir() {
-  localStorage.setItem("supirList", JSON.stringify(supirList));
+  alert("Tambah data truk (fitur segera dibuat)");
 }
 
 function tambahSupir() {
-  const nama = document.getElementById("namaSupir").value;
-  const hp = document.getElementById("hpSupir").value;
-  const truk = document.getElementById("trukSupir").value;
-  const status = document.getElementById("statusSupir").value;
-
-  if (!nama || !hp || !truk) return alert("Lengkapi data supir!");
-
-  supirList.push({ nama, hp, truk, status });
-  simpanSupir();
-  tampilkanSupir();
-
-  document.getElementById("namaSupir").value = "";
-  document.getElementById("hpSupir").value = "";
-  document.getElementById("trukSupir").value = "";
-}
-function tampilkanSupir() {
-  const out = document.getElementById("dataSupir");
-  out.innerHTML = "<ul>" + trukList.map(t =>
-    `<li>${t.nama} - ${t.hp} (${t.truk}) [${t.status}]</li>`
-  ).join("") + "</ul>";
-}
-
-// ========== 💸 PENGELUARAN ==========
-let pengeluaranList = JSON.parse(localStorage.getItem("pengeluaranList")) || [];
-
-function simpanPengeluaran() {
-  localStorage.setItem("pengeluaranList", JSON.stringify(pengeluaranList));
-}
-
-function tambahPengeluaran() {
-  const tgl = document.getElementById("tglPengeluaran").value;
-  const jenis = document.getElementById("jenisPengeluaran").value;
-  const jumlah = parseInt(document.getElementById("jumlahPengeluaran").value);
-  const truk = document.getElementById("trukPengeluaran").value;
-
-  if (!tgl || !jenis || isNaN(jumlah) || !truk) return alert("Lengkapi data pengeluaran!");
-
-  pengeluaranList.push({ tgl, jenis, jumlah, truk });
-  simpanPengeluaran();
-  tampilkanPengeluaran();
-
-  document.getElementById("tglPengeluaran").value = "";
-  document.getElementById("jenisPengeluaran").value = "";
-  document.getElementById("jumlahPengeluaran").value = "";
-  document.getElementById("trukPengeluaran").value = "";
-}
-
-function tampilkanPengeluaran() {
-  const out = document.getElementById("dataPengeluaran");
-  out.innerHTML = pengeluaranList.map((p, i) => `
-    <tr>
-      <td>${i + 1}</td>
-      <td>${p.tgl}</td>
-      <td>${p.truk}</td>
-      <td>${p.jenis}</td>
-      <td>${p.jumlah.toLocaleString()}</td>
-    </tr>
-  `).join("");
-}
-
-// ========== 🛠️ SERVIS ==========
-let servisList = JSON.parse(localStorage.getItem("servisList")) || [];
-
-function simpanServis() {
-  localStorage.setItem("servisList", JSON.stringify(servisList));
-}
-
-function tambahServis() {
-  const tgl = document.getElementById("tglServis").value;
-  const plat = document.getElementById("platServis").value;
-  const deskripsi = document.getElementById("deskripsiServis").value;
-
-  if (!tgl || !plat || !deskripsi) return alert("Lengkapi data servis!");
-
-  servisList.push({ tgl, plat, deskripsi });
-  simpanServis();
-  tampilkanServis();
-
-  document.getElementById("tglServis").value = "";
-  document.getElementById("platServis").value = "";
-  document.getElementById("deskripsiServis").value = "";
-}
-
-function tampilkanServis() {
-  const out = document.getElementById("dataServis");
-  out.innerHTML = servisList.map((s, i) => `
-    <tr>
-      <td>${i + 1}</td>
-      <td>${s.tgl}</td>
-      <td>${s.plat}</td>
-      <td>${s.deskripsi}</td>
-    </tr>
-  `).join("");
-}
-
-// ========== 🔩 SPAREPART ==========
-let spareparts = JSON.parse(localStorage.getItem("spareparts")) || [];
-
-function simpanSparepart() {
-  localStorage.setItem("spareparts", JSON.stringify(spareparts));
+  alert("Tambah data supir (fitur segera dibuat)");
 }
 
 function tambahSparepart() {
-  const nama = document.getElementById("namaSparepart").value;
-  const harga = parseInt(document.getElementById("hargaSparepart").value);
+  const nama = prompt("Nama Sparepart:");
+  const harga = prompt("Harga (Rp):");
+  const stok = prompt("Jumlah Stok:");
 
-  if (!nama || isNaN(harga)) return alert("Isi nama dan harga sparepart!");
+  if (nama && harga && stok) {
+    const item = {
+      nama,
+      harga: parseInt(harga),
+      stok: parseInt(stok)
+    };
 
-  spareparts.push({ nama, harga });
-  simpanSparepart();
-  tampilkanSparepart();
-
-  document.getElementById("namaSparepart").value = "";
-  document.getElementById("hargaSparepart").value = "";
+    const spareparts = JSON.parse(localStorage.getItem("spareparts") || "[]");
+    spareparts.push(item);
+    localStorage.setItem("spareparts", JSON.stringify(spareparts));
+    tampilkanSparepart();
+  }
 }
 
 function tampilkanSparepart() {
-  const out = document.getElementById("listSparepart");
-  out.innerHTML = spareparts.map((s, i) => `
-    <tr>
-      <td>${i + 1}</td>
-      <td>${s.nama}</td>
-      <td>${s.harga.toLocaleString()}</td>
-    </tr>
-  `).join("");
+  const data = JSON.parse(localStorage.getItem("spareparts") || "[]");
+  const container = document.getElementById("dataSparepart");
+  container.innerHTML = "";
+
+  data.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <strong>${item.nama}</strong><br>
+      Harga: Rp${item.harga}<br>
+      Stok: ${item.stok}<br>
+      <button onclick="hapusSparepart(${i})">🗑️ Hapus</button>
+      <hr>
+    `;
+    container.appendChild(div);
+  });
 }
 
-// ========== JALANKAN SAAT LOAD ==========
-window.onload = () => {
-  tampilkanTruk();
-  tampilkanSupir();
-  tampilkanPengeluaran();
-  tampilkanServis();
+function hapusSparepart(index) {
+  const spareparts = JSON.parse(localStorage.getItem("spareparts") || "[]");
+  spareparts.splice(index, 1);
+  localStorage.setItem("spareparts", JSON.stringify(spareparts));
   tampilkanSparepart();
-};
+}
 
-function logout() {
-  alert("Logout berhasil! (Fitur redirect bisa ditambah)");
+// Panggil saat awal buka
+tampilkanSparepart();
+
+function tambahPengeluaran() {
+  alert("Tambah data pengeluaran (fitur segera dibuat)");
+}
+
+function tambahServis() {
+  alert("Tambah jadwal servis (fitur segera dibuat)");
 }
