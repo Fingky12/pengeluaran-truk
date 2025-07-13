@@ -21,6 +21,16 @@
     <button onclick="showSection('servis')">🛠️ Jadwal Servis</button>
   </nav>
 
+<!-- FORM TAMBAH DATA -->
+  <div id="formPopup" class="form-popup hidden">
+    <div class="form-content">
+      <h3 id="formTitle">Tambah Data</h3>
+      <div id="formFields"></div>
+      <button onclick="simpanForm()">💾 Simpan</button>
+      <button onclick="tutupForm()">❌ Batal</button>
+    </div>
+  </div>
+
   <main>
     <section id="dashboard" class="active">
       <h2>📊 Dashboard</h2>
