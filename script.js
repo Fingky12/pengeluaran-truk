@@ -1,149 +1,155 @@
-function showSection(id) {
-  document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+// ====================== Supir ======================
+document.getElementById("formSupir").onsubmit = function (e) {
+  e.preventDefault();
+  const nama = namaSupir.value;
+  const noHP = noHP.value;
+  const truk = trukSupir.value;
+
+  const data = JSON.parse(localStorage.getItem("supir") || "[]");
+  data.push({ nama, noHP, truk });
+  localStorage.setItem("supir", JSON.stringify(data));
+  tampilSupir();
+  this.reset();
+};
+
+function tampilSupir() {
+  const data = JSON.parse(localStorage.getItem("supir") || "[]");
+  listSupir.innerHTML = data.map((s, i) => `
+    <li>
+      ${s.nama} - ${s.noHP} - ${s.truk}
+      <button onclick="editSupir(${i})">Edit</button>
+    </li>`).join("");
 }
 
-function tambahSparepart() {
-  const nama = prompt("Nama Sparepart:");
-  const harga = prompt("Harga (Rp):");
-  const stok = prompt("Jumlah Stok:");
+function editSupir(index) {
+  const data = JSON.parse(localStorage.getItem("supir") || "[]");
+  const s = data[index];
 
-  if (nama && harga && stok) {
-    const item = {
-      nama,
-      harga: parseInt(harga),
-      stok: parseInt(stok)
-    };
+  const nama = prompt("Edit Nama Supir:", s.nama);
+  const noHP = prompt("Edit No HP:", s.noHP);
+  const truk = prompt("Edit Truk:", s.truk);
 
-    const spareparts = JSON.parse(localStorage.getItem("spareparts") || "[]");
-    spareparts.push(item);
-    localStorage.setItem("spareparts", JSON.stringify(spareparts));
-    tampilkanSparepart();
+  if (nama && noHP) {
+    data[index] = { nama, noHP, truk };
+    localStorage.setItem("supir", JSON.stringify(data));
+    tampilSupir();
   }
 }
 
-function tampilkanSparepart() {
-  const data = JSON.parse(localStorage.getItem("spareparts") || "[]");
-  const container = document.getElementById("dataSparepart");
-  container.innerHTML = "";
 
-  data.forEach((item, i) => {
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <strong>${item.nama}</strong><br>
-      Harga: Rp${item.harga}<br>
-      Stok: ${item.stok}<br>
-      <button onclick="hapusSparepart(${i})">🗑️ Hapus</button>
-      <hr>
-    `;
-    container.appendChild(div);
-  });
+// ====================== Truk ======================
+document.getElementById("formTruk").onsubmit = function (e) {
+  e.preventDefault();
+  const plat = platTruk.value;
+  const tipe = tipeTruk.value;
+  const tahun = parseInt(tahunTruk.value);
+  const status = statusTruk.value;
+
+  const data = JSON.parse(localStorage.getItem("truk") || "[]");
+  data.push({ plat, tipe, tahun, status });
+  localStorage.setItem("truk", JSON.stringify(data));
+  tampilTruk();
+  this.reset();
+};
+
+function tampilTruk() {
+  const data = JSON.parse(localStorage.getItem("truk") || "[]");
+  listTruk.innerHTML = data.map((t, i) => `
+    <li>
+      ${t.plat} - ${t.tipe} - ${t.tahun} - ${t.status}
+      <button onclick="editTruk(${i})">Edit</button>
+    </li>`).join("");
 }
 
-function hapusSparepart(index) {
-  const spareparts = JSON.parse(localStorage.getItem("spareparts") || "[]");
-  spareparts.splice(index, 1);
-  localStorage.setItem("spareparts", JSON.stringify(spareparts));
-  tampilkanSparepart();
+function editTruk(index) {
+  const data = JSON.parse(localStorage.getItem("truk") || "[]");
+  const t = data[index];
+
+  const plat = prompt("Edit Plat Nomor:", t.plat);
+  const tipe = prompt("Edit Tipe Truk:", t.tipe);
+  const tahun = parseInt(prompt("Edit Tahun:", t.tahun));
+  const status = prompt("Edit Status (Aktif/Nonaktif):", t.status);
+
+  if (plat && status) {
+    data[index] = { plat, tipe, tahun, status };
+    localStorage.setItem("truk", JSON.stringify(data));
+    tampilTruk();
+  }
 }
 
-// Panggil saat awal buka
-tampilkanSparepart();
+// ====================== Barang Masuk ======================
+document.getElementById("formMasuk").onsubmit = function (e) {
+  e.preventDefault();
+  const nama = namaBarangMasuk.value;
+  const stok = parseInt(stokMasuk.value);
+  const kategori = kategoriMasuk.value;
+  const harga = parseInt(hargaMasuk.value);
 
-let formMode = '';
-let formType = '';
+  const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
+  const existing = data.find(b => b.nama === nama);
 
-function tambahTruk() {
-  formMode = 'tambah';
-  formType = 'truk';
-  tampilkanForm(['Nomor Polisi', 'Tipe', 'Tahun', 'Status']);
+  if (existing) {
+    existing.stok += stok;
+    existing.harga = harga; // update harga jika perlu
+  } else {
+    data.push({ nama, stok, kategori, harga });
+  }
+
+  localStorage.setItem("sparepart", JSON.stringify(data));
+  tampilSparepart();
+  loadBarangKeluar(); // update dropdown
+  this.reset();
+};
+
+// ====================== Barang Keluar ======================
+document.getElementById("formKeluar").onsubmit = function (e) {
+  e.preventDefault();
+  const nama = pilihBarangKeluar.value;
+  const stok = parseInt(stokKeluar.value);
+
+  const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
+  const barang = data.find(b => b.nama === nama);
+
+  if (!barang || barang.stok < stok) {
+    alert("Stok tidak cukup!");
+    return;
+  }
+
+  barang.stok -= stok;
+  localStorage.setItem("sparepart", JSON.stringify(data));
+  tampilSparepart();
+  this.reset();
+};
+
+function tampilSparepart() {
+  const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
+  listSparepart.innerHTML = data.map((b, i) => `
+    <li>
+      ${b.nama} - ${b.kategori} - ${b.stok} pcs - Rp${b.harga.toLocaleString()}
+      <button onclick="editSparepart(${i})">Edit</button>
+    </li>`).join("");
 }
 
-function tambahSupir() {
-  formMode = 'tambah';
-  formType = 'supir';
-  tampilkanForm(['Nama Supir', 'No HP', 'Truk Digunakan', 'Status']);
+function editSparepart(index) {
+  const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
+  const b = data[index];
+
+  const nama = prompt("Edit Nama Barang:", b.nama);
+  const kategori = prompt("Edit Kategori:", b.kategori);
+  const harga = parseInt(prompt("Edit Harga:", b.harga));
+
+  if (nama && harga >= 0) {
+    data[index] = { ...b, nama, kategori, harga }; // jumlah tetap
+    localStorage.setItem("sparepart", JSON.stringify(data));
+    tampilSparepart();
+    loadBarangKeluar(); // refresh dropdown
+  }
 }
 
-function tambahSparepart() {
-  formMode = 'tambah';
-  formType = 'sparepart';
-  tampilkanForm(['Nama Sparepart', 'Harga (Rp)', 'Stok']);
+function loadBarangKeluar() {
+  const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
+  pilihBarangKeluar.innerHTML = data.map(b =>
+    `<option value="${b.nama}">${b.nama} (${b.jumlah})</option>`
+  ).join("");
 }
-
-function tampilkanForm(fieldList) {
-  const form = document.getElementById('formPopup');
-  const fields = document.getElementById('formFields');
-  const title = document.getElementById('formTitle');
-  fields.innerHTML = '';
-  title.innerText = `Tambah Data ${formType.charAt(0).toUpperCase() + formType.slice(1)}`;
-
-  fieldList.forEach(field => {
-    const input = document.createElement('input');
-    input.placeholder = field;
-    input.setAttribute('data-label', field);
-    fields.appendChild(input);
-  });
-
-  form.classList.remove('hidden');
-}
-
-function tutupForm() {
-  document.getElementById('formPopup').classList.add('hidden');
-}
-
-function simpanForm() {
-  const inputs = document.querySelectorAll('#formFields input');
-  const data = {};
-  inputs.forEach(input => {
-    const key = input.getAttribute('data-label');
-    data[key] = input.value;
-  });
-
-  const key = formType === 'truk' ? 'trukList'
-            : formType === 'supir' ? 'supirList'
-            : 'spareparts';
-
-  const existing = JSON.parse(localStorage.getItem(key) || '[]');
-  existing.push(data);
-  localStorage.setItem(key, JSON.stringify(existing));
-
-  tutupForm();
-  renderSemuaData();
-}
-
-function renderSemuaData() {
-  tampilkanTruk();
-  tampilkanSupir();
-  tampilkanSparepart();
-}
-
-function tampilkanTruk() {
-  const data = JSON.parse(localStorage.getItem('trukList') || '[]');
-  const el = document.getElementById('dataTruk');
-  el.innerHTML = data.map(truk => `
-    <div><strong>${truk['Nomor Polisi']}</strong> - ${truk.Tipe}, ${truk.Tahun} (${truk.Status})</div>
-  `).join('');
-}
-
-function tampilkanSupir() {
-  const data = JSON.parse(localStorage.getItem('supirList') || '[]');
-  const el = document.getElementById('dataSupir');
-  el.innerHTML = data.map(supir => `
-    <div><strong>${supir['Nama Supir']}</strong> - ${supir['No HP']} | Truk: ${supir['Truk Digunakan']} (${supir.Status})</div>
-  `).join('');
-}
-
-function tampilkanSparepart() {
-  const data = JSON.parse(localStorage.getItem('spareparts') || '[]');
-  const el = document.getElementById('dataSparepart');
-  el.innerHTML = data.map(item => `
-    <div><strong>${item['Nama Sparepart']}</strong><br>
-      Harga: Rp${item['Harga (Rp)']}<br>
-      Stok: ${item['Stok']}
-    </div>
-  `).join('');
-}
-
-// Jalankan semua saat awal
-renderSemuaData();
+loadBarangKeluar();

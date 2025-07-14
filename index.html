@@ -1,73 +1,72 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fleet Management System</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fleet Management</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <header>
-    <h1>🚛 Fleet Management System</h1>
-    <button onclick="logout()">Logout Admin</button>
-  </header>
+  <h1>🚛 Sistem Fleet Management</h1>
 
-  <nav>
-    <button onclick="showSection('dashboard')">📊 Dashboard</button>
-    <button onclick="showSection('truk')">🚚 Data Truk</button>
-    <button onclick="showSection('supir')">🧍‍♂️ Data Supir</button>
-    <button onclick="showSection('sparepart')">📦 Sparepart</button>
-    <button onclick="showSection('pengeluaran')">💸 Pengeluaran</button>
-    <button onclick="showSection('servis')">🛠️ Jadwal Servis</button>
-  </nav>
+  <!-- 📍 Input Supir -->
+  <section>
+    <h2>👨‍✈️ Input Supir</h2>
+    <form id="formSupir">
+      <input type="text" id="namaSupir" placeholder="Nama Supir" required />
+      <input type="text" id="noHP" placeholder="Nomor HP" required />
+      <input type="text" id="trukSupir" placeholder="Plat Truk yang Dikemudikan" />
+      <button type="submit">➕ Tambah Supir</button>
+    </form>
+    <ul id="listSupir"></ul>
+  </section>
 
-<!-- FORM TAMBAH DATA -->
-  <div id="formPopup" class="form-popup hidden">
-    <div class="form-content">
-      <h3 id="formTitle">Tambah Data</h3>
-      <div id="formFields"></div>
-      <button onclick="simpanForm()">💾 Simpan</button>
-      <button onclick="tutupForm()">❌ Batal</button>
-    </div>
-  </div>
+  <!-- 📍 Input Truk -->
+  <section>
+    <h2>🚚 Input Truk</h2>
+    <form id="formTruk">
+      <input type="text" id="platTruk" placeholder="Nomor Polisi" required />
+      <input type="text" id="tipeTruk" placeholder="Tipe Truk" />
+      <input type="number" id="tahunTruk" placeholder="Tahun" />
+      <select id="statusTruk">
+        <option value="Aktif">Aktif</option>
+        <option value="Nonaktif">Nonaktif</option>
+      </select>
+      <button type="submit">➕ Tambah Truk</button>
+    </form>
+    <ul id="listTruk"></ul>
+  </section>
 
-  <main>
-    <section id="dashboard" class="active">
-      <h2>📊 Dashboard</h2>
-      <div id="summaryCards"></div>
-    </section>
+  <!-- 📍 Input Barang Masuk -->
+  <section>
+    <h2>📥 Barang Masuk (Sparepart)</h2>
+    <form id="formMasuk">
+      <input type="text" id="namaBarangMasuk" placeholder="Nama Barang" required />
+      <input type="number" id="stokMasuk" placeholder="Stok Masuk" required />
+      <input type="text" id="kategoriMasuk" placeholder="Kategori" />
+      <input type="number" id="hargaMasuk" placeholder="Harga per Unit" required />
+      <button type="submit">📦 Tambah ke Stok</button>
+    </form>
+  </section>
 
-    <section id="truk">
-      <h2>🚚 Data Truk</h2>
-      <button onclick="tambahTruk()">+ Tambah Truk</button>
-      <div id="dataTruk"></div>
-    </section>
+  <!-- 📍 Input Barang Keluar -->
+  <section>
+    <h2>📤 Barang Keluar (Dipakai)</h2>
+    <form id="formKeluar">
+      <select id="pilihBarangKeluar"></select>
+      <input type="number" id="stokKeluar" placeholder="Stok Keluar" required />
+      <button type="submit">🔻 Kurangi Stok</button>
+    </form>
+  </section>
 
-    <section id="supir">
-      <h2>🧍‍♂️ Data Supir</h2>
-      <button onclick="tambahSupir()">+ Tambah Supir</button>
-      <div id="dataSupir"></div>
-    </section>
-
-    <section id="sparepart">
-      <h2>📦 Data Sparepart</h2>
-      <button onclick="tambahSparepart()">+ Tambah Sparepart</button>
-      <div id="dataSparepart"></div>
-    </section>
-
-    <section id="pengeluaran">
-      <h2>💸 Pengeluaran Truk</h2>
-      <button onclick="tambahPengeluaran()">+ Tambah Pengeluaran</button>
-      <div id="dataPengeluaran"></div>
-    </section>
-
-    <section id="servis">
-      <h2>🛠️ Jadwal & Riwayat Servis</h2>
-      <button onclick="tambahServis()">+ Tambah Jadwal</button>
-      <div id="dataServis"></div>
-    </section>
-  </main>
+  <!-- Daftar Stok -->
+  <section>
+    <h2>📦 Daftar Stok Sparepart</h2>
+    <ul id="listSparepart"></ul>
+  </section>
 
   <script src="script.js"></script>
 </body>
+
 </html>
