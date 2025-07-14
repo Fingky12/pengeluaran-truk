@@ -71,7 +71,7 @@ function tambahServis() {
   alert("Tambah jadwal servis (fitur segera dibuat)");
 }
 
-et formMode = '';
+let formMode = '';
 let formType = '';
 
 function tambahTruk() {
