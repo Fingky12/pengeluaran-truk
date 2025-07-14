@@ -13,16 +13,9 @@ section {
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
-input {
-  margin: 0,3rem 0;
-  padding: 0,5rem;
-  display: block;
-  width: 90%;
-}
-
- select, button {
+input, select, button {
   margin: 0.3rem 0;
   padding: 0.5rem;
   display: block;
-  width: 100%;
+  width: 90%;
 }
