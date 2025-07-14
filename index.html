@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fleet Management</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
@@ -50,6 +51,13 @@
     </form>
   </section>
 
+<!-- 📜 Riwayat Barang Masuk -->
+<section>
+  <h2>📥 Riwayat Barang Masuk</h2>
+  <button onclick="exportPDF('masuk')">📄 Export PDF</button>
+  <ul id="logMasuk"></ul>
+</section>
+
   <!-- 📍 Input Barang Keluar -->
   <section>
     <h2>📤 Barang Keluar (Dipakai)</h2>
@@ -60,6 +68,13 @@
     </form>
   </section>
 
+<!-- 📤 Riwayat Barang Keluar -->
+<section>
+  <h2>📤 Riwayat Barang Keluar</h2>
+  <button onclick="exportPDF('keluar')">📄 Export PDF</button>
+  <ul id="logKeluar"></ul>
+</section>
+
   <!-- Daftar Stok -->
   <section>
     <h2>📦 Daftar Stok Sparepart</h2>
@@ -68,5 +83,4 @@
 
   <script src="script.js"></script>
 </body>
-
 </html>

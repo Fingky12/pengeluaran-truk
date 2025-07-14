@@ -124,6 +124,19 @@ document.getElementById("formMasuk").onsubmit = function (e) {
   localStorage.setItem("sparepart", JSON.stringify(data));
   tampilSparepart();
   loadBarangKeluar(); // update dropdown
+
+  const logMasuk = JSON.parse(localStorage.getItem("logMasuk") || "[]");
+
+  logMasuk.push({
+    waktu: new Date().toLocaleString(),
+    nama,
+    stok,
+    kategori,
+    harga
+});
+
+  localStorage.setItem("logMasuk", JSON.stringify(logMasuk));
+  tampilLogMasuk();
   this.reset();
 };
 
@@ -144,6 +157,17 @@ document.getElementById("formKeluar").onsubmit = function (e) {
   barang.stok -= stok;
   localStorage.setItem("sparepart", JSON.stringify(data));
   tampilSparepart();
+
+  const logKeluar = JSON.parse(localStorage.getItem("logKeluar") || "[]");
+
+  logKeluar.push({
+    waktu: new Date().toLocaleString(),
+    nama,
+    stok
+});
+
+  localStorage.setItem("logKeluar", JSON.stringify(logKeluar));
+  tampilLogKeluar();
   this.reset();
 };
 
@@ -193,3 +217,41 @@ function loadBarangKeluar() {
   ).join("");
 }
 loadBarangKeluar();
+
+function tampilLogMasuk() {
+  const logs = JSON.parse(localStorage.getItem("logMasuk") || "[]");
+  logMasuk.innerHTML = logs.map(l =>
+    `<li>${l.waktu} - ${l.nama} (${l.jumlah} pcs) - Rp${l.harga.toLocaleString()}</li>`
+  ).join("");
+}
+function tampilLogKeluar() {
+  const logs = JSON.parse(localStorage.getItem("logKeluar") || "[]");
+  logKeluar.innerHTML = logs.map(l =>
+    `<li>${l.waktu} - ${l.nama} (${l.jumlah} pcs)</li>`
+  ).join("");
+}
+tampilLogMasuk();
+tampilLogKeluar();
+
+async function exportPDF(tipe) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let title = tipe === "masuk" ? "Riwayat Barang Masuk" : "Riwayat Barang Keluar";
+  doc.setFontSize(16);
+  doc.text(title, 10, 10);
+
+  let y = 20;
+  const data = JSON.parse(localStorage.getItem(tipe === "masuk" ? "logMasuk" : "logKeluar") || "[]");
+
+  data.forEach((item, index) => {
+    const text = tipe === "masuk"
+      ? `${item.waktu} - ${item.nama} (${item.jumlah} pcs) - Rp${item.harga.toLocaleString()}`
+      : `${item.waktu} - ${item.nama} (${item.jumlah} pcs)`;
+    doc.text(text, 10, y);
+    y += 8;
+    if (y > 280) { doc.addPage(); y = 20; }
+  });
+
+  doc.save(`${title}.pdf`);
+}
