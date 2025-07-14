@@ -103,6 +103,44 @@ li button:hover {
   background: #e1a400;
 }
 
+li {
+  /* sudah ada */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Wrapper tombol */
+li .actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+/* Tombol edit & hapus kecil */
+li button {
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+}
+
+/* Warna tombol berbeda */
+li .edit-btn {
+  background: #74b9ff;
+  color: #000;
+}
+li .edit-btn:hover {
+  background: #0984e3;
+  color: #fff;
+}
+li .hapus-btn {
+  background: #ff7675;
+  color: #000;
+}
+li .hapus-btn:hover {
+  background: #d63031;
+  color: #fff;
+}
+
 /* ===== Animasi FadeIn List ===== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

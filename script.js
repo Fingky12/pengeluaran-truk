@@ -16,9 +16,22 @@ function tampilSupir() {
   const data = JSON.parse(localStorage.getItem("supir") || "[]");
   listSupir.innerHTML = data.map((s, i) => `
     <li>
-      ${s.nama} - ${s.noHP} - ${s.truk}
-      <button onclick="editSupir(${i})">Edit</button>
-    </li>`).join("");
+      <span>${s.nama} - ${s.noHP} - ${s.truk}</span>
+      <div class="actions">
+        <button class="edit-btn" onclick="editSupir(${i})">✏️</button>
+        <button class="hapus-btn" onclick="hapusSupir(${i})">🗑️</button>
+      </div>
+    </li>
+  `).join("");
+}
+
+function hapusSupir(index) {
+  const data = JSON.parse(localStorage.getItem("supir") || "[]");
+  if (confirm("Yakin hapus supir ini?")) {
+    data.splice(index, 1);
+    localStorage.setItem("supir", JSON.stringify(data));
+    tampilSupir();
+  }
 }
 
 function editSupir(index) {
@@ -56,9 +69,22 @@ function tampilTruk() {
   const data = JSON.parse(localStorage.getItem("truk") || "[]");
   listTruk.innerHTML = data.map((t, i) => `
     <li>
-      ${t.plat} - ${t.tipe} - ${t.tahun} - ${t.status}
-      <button onclick="editTruk(${i})">Edit</button>
-    </li>`).join("");
+      <span>${t.plat} - ${t.tipe} - ${t.tahun} - ${t.status}</span>
+      <div class="actions">
+        <button class="edit-btn" onclick="editTruk(${i})">✏️</button>
+        <button class="hapus-btn" onclick="hapusTruk(${i})">🗑️</button>
+      </div>
+    </li>
+  `).join("");
+}
+
+function hapusTruk(index) {
+  const data = JSON.parse(localStorage.getItem("truk") || "[]");
+  if (confirm("Yakin hapus truk ini?")) {
+    data.splice(index, 1);
+    localStorage.setItem("truk", JSON.stringify(data));
+    tampilTruk();
+  }
 }
 
 function editTruk(index) {
@@ -125,9 +151,23 @@ function tampilSparepart() {
   const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
   listSparepart.innerHTML = data.map((b, i) => `
     <li>
-      ${b.nama} - ${b.kategori} - ${b.stok} pcs - Rp${b.harga.toLocaleString()}
-      <button onclick="editSparepart(${i})">Edit</button>
-    </li>`).join("");
+      <span>${b.nama} - ${b.kategori} - ${b.jumlah} pcs - Rp${b.harga.toLocaleString()}</span>
+      <div class="actions">
+        <button class="edit-btn" onclick="editSparepart(${i})">✏️</button>
+        <button class="hapus-btn" onclick="hapusSparepart(${i})">🗑️</button>
+      </div>
+    </li>
+  `).join("");
+}
+
+function hapusSparepart(index) {
+  const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
+  if (confirm("Yakin hapus barang ini?")) {
+    data.splice(index, 1);
+    localStorage.setItem("sparepart", JSON.stringify(data));
+    tampilSparepart();
+    loadBarangKeluar(); // update dropdown
+  }
 }
 
 function editSparepart(index) {
