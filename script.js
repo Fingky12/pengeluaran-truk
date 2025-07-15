@@ -42,6 +42,7 @@ function tampilSupir() {
       </div>
     </li>`).join("");
 }
+
 function editSupir(i) {
   const data = JSON.parse(localStorage.getItem("supir") || "[]");
   const s = data[i];
@@ -54,6 +55,7 @@ function editSupir(i) {
     tampilSupir();
   }
 }
+
 function hapusSupir(i) {
   const data = JSON.parse(localStorage.getItem("supir") || "[]");
   if (confirm("Yakin hapus supir ini?")) {
@@ -76,6 +78,7 @@ function tampilTruk() {
       </div>
     </li>`).join("");
 }
+
 function editTruk(i) {
   const data = JSON.parse(localStorage.getItem("truk") || "[]");
   const t = data[i];
@@ -98,139 +101,75 @@ function hapusTruk(i) {
   }
 }
 
-// ==== Load Awal ====
-tampilSupir();
-tampilTruk();
-
-
-document.getElementById("formBarang").onsubmit = function (e) {
+// ==== Form Sparepart ====
+document.getElementById("formSparepart").onsubmit = function (e) {
   e.preventDefault();
-  const nama = namaBarang.value.trim();
-  const jumlah = parseInt(jumlahBarang.value);
-  const kategori = kategoriBarang.value.trim();
-  const harga = parseInt(hargaBarang.value);
-  const tipe = document.querySelector('input[name="tipe"]:checked').value;
 
-  let stok = JSON.parse(localStorage.getItem("sparepart") || "[]");
-  const index = stok.findIndex(b => b.nama === nama);
+  const nama = namaSparepart.value.trim();
+  const kategori = kategoriSparepart.value.trim();
+  const stok = parseInt(jumlahSparepart.value);
+  const harga = parseInt(hargaSparepart.value);
 
-  if (tipe === "masuk") {
-    if (index !== -1) {
-      stok[index].jumlah += jumlah;
-      stok[index].harga = harga; // update harga
-      stok[index].kategori = kategori;
-    } else {
-      stok.push({ nama, jumlah, kategori, harga });
-    }
-    localStorage.setItem("sparepart", JSON.stringify(stok));
+  if (!nama || !kategori || !stok || !harga) return;
 
-    // simpan log masuk
-    const logMasuk = JSON.parse(localStorage.getItem("logMasuk") || "[]");
-    logMasuk.push({ waktu: new Date().toLocaleString(), nama, jumlah, kategori, harga });
-    localStorage.setItem("logMasuk", JSON.stringify(logMasuk));
-    tampilLogMasuk();
+  let data = JSON.parse(localStorage.getItem("sparepart") || "[]");
+  const index = data.findIndex(b => b.nama === nama);
 
-  } else if (tipe === "keluar") {
-    if (index === -1 || stok[index].jumlah < jumlah) {
-      alert("Barang tidak cukup atau tidak ditemukan!");
-      return;
-    }
-    stok[index].jumlah -= jumlah;
-    localStorage.setItem("sparepart", JSON.stringify(stok));
-
-    // simpan log keluar
-    const logKeluar = JSON.parse(localStorage.getItem("logKeluar") || "[]");
-    logKeluar.push({ waktu: new Date().toLocaleString(), nama, jumlah });
-    localStorage.setItem("logKeluar", JSON.stringify(logKeluar));
-    tampilLogKeluar();
+  if (index !== -1) {
+    // Update stok jika sparepart sudah ada
+    data[index].stok += stok;
+    data[index].harga = harga;
+    data[index].kategori = kategori;
+  } else {
+    // Tambah baru
+    data.push({ nama, kategori, stok, harga });
   }
 
+  localStorage.setItem("sparepart", JSON.stringify(data));
   tampilSparepart();
-  loadBarangKeluar?.(); // kalau ada
   this.reset();
 };
 
+// ==== Tampil Sparepart ====
 function tampilSparepart() {
   const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
-  listSparepart.innerHTML = data.map((b, i) => `
+  const list = document.getElementById("listSparepart");
+  list.innerHTML = data.map((b, i) => `
     <li>
-      <span>${b.nama} - ${b.kategori} - ${b.jumlah} pcs - Rp${b.harga.toLocaleString()}</span>
+      <span>${b.nama} - ${b.kategori} - ${b.stok} pcs - Rp${b.harga.toLocaleString()}</span>
       <div class="actions">
         <button class="edit-btn" onclick="editSparepart(${i})">✏️</button>
         <button class="hapus-btn" onclick="hapusSparepart(${i})">🗑️</button>
       </div>
-    </li>
-  `).join("");
+    </li>`).join("");
 }
 
-function hapusSparepart(index) {
+// ==== Edit & Hapus Sparepart ====
+function editSparepart(i) {
   const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
-  if (confirm("Yakin hapus barang ini?")) {
-    data.splice(index, 1);
+  const s = data[i];
+  const nama = prompt("Edit Nama:", s.nama);
+  const kategori = prompt("Edit Kategori:", s.kategori);
+  const harga = parseInt(prompt("Edit Harga:", s.harga));
+  // Jumlah stok tidak bisa diedit (sesuai permintaan broo)
+
+  if (nama && kategori && harga) {
+    data[i] = { ...s, nama, kategori, harga };
     localStorage.setItem("sparepart", JSON.stringify(data));
     tampilSparepart();
-    loadBarangKeluar(); // update dropdown
   }
 }
 
-function editSparepart(index) {
+function hapusSparepart(i) {
   const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
-  const b = data[index];
-
-  const nama = prompt("Edit Nama Barang:", b.nama);
-  const kategori = prompt("Edit Kategori:", b.kategori);
-  const harga = parseInt(prompt("Edit Harga:", b.harga));
-
-  if (nama && harga >= 0) {
-    data[index] = { ...b, nama, kategori, harga }; // jumlah tetap
+  if (confirm("Hapus sparepart ini?")) {
+    data.splice(i, 1);
     localStorage.setItem("sparepart", JSON.stringify(data));
     tampilSparepart();
-    loadBarangKeluar(); // refresh dropdown
   }
 }
 
-function loadBarangKeluar() {
-  const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
-  pilihBarangKeluar.innerHTML = data.map(b =>
-    `<option value="${b.nama}">${b.nama} (${b.jumlah})</option>`
-  ).join("");
-}
-loadBarangKeluar();
-
-function tampilLogMasuk() {
-  const logs = JSON.parse(localStorage.getItem("logMasuk") || "[]");
-  logMasuk.innerHTML = logs.map(l =>
-    `<li>${l.waktu} - ${l.nama} (${l.jumlah} pcs) - Rp${l.harga.toLocaleString()}</li>`
-  ).join("");
-}
-function tampilLogKeluar() {
-  const logs = JSON.parse(localStorage.getItem("logKeluar") || "[]");
-  logKeluar.innerHTML = logs.map(l =>
-    `<li>${l.waktu} - ${l.nama} (${l.jumlah} pcs)</li>`
-  ).join("");
-}
-tampilLogMasuk();
-tampilLogKeluar();
-
-async function exportPDF(tipe) {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  let title = tipe === "masuk" ? "Riwayat Barang Masuk" : "Riwayat Barang Keluar";
-  doc.setFontSize(16);
-  doc.text(title, 10, 10);
-
-  let y = 20;
-  const data = JSON.parse(localStorage.getItem(tipe === "masuk" ? "logMasuk" : "logKeluar") || "[]");
-
-  data.forEach((item, index) => {
-    const text = tipe === "masuk"
-      ? `${item.waktu} - ${item.nama} (${item.jumlah} pcs) - Rp${item.harga.toLocaleString()}`
-      : `${item.waktu} - ${item.nama} (${item.jumlah} pcs)`;
-    doc.text(text, 10, y);
-    y += 8;
-    if (y > 280) { doc.addPage(); y = 20; }
-  });
-
-  doc.save(`${title}.pdf`);
-}
+// ==== Load Awal ====
+tampilSupir();
+tampilTruk();
+tampilSparepart();

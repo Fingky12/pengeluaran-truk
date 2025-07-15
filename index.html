@@ -11,6 +11,21 @@
 <body>
  <h1>🚚 Sistem Fleet Management</h1>
 
+
+<!-- 🧰 Input + List Sparepart -->
+<section>
+  <h2>🧰 Sparepart Masuk</h2>
+  <form id="formSparepart">
+    <input type="text" id="namaSparepart" placeholder="Nama Sparepart" required />
+    <input type="text" id="kategoriSparepart" placeholder="Kategori (Ban, Oli, etc)" required />
+    <input type="number" id="jumlahSparepart" placeholder="Jumlah" required />
+    <input type="number" id="hargaSparepart" placeholder="Harga Satuan" required />
+    <button type="submit">💾 Simpan Sparepart</button>
+  </form>
+
+  <ul id="listSparepart"></ul>
+</section>
+
   <!-- 🔧 Form Gabungan: Supir + Truk -->
   <section>
     <h2>👨‍✈️ Input Supir + Truk</h2>
@@ -60,19 +75,6 @@
   </form>
 </section>
 
-<!-- 📤 Riwayat Barang Keluar -->
-<section>
-  <h2>📤 Riwayat Barang Keluar</h2>
-  <button onclick="exportPDF('keluar')">📄 Export PDF</button>
-  <ul id="logKeluar"></ul>
-</section>
-
-  <!-- Daftar Stok -->
-  <section>
-    <h2>📦 Daftar Stok Sparepart</h2>
-    <ul id="listSparepart"></ul>
-  </section>
-  
   <!-- JS Eksternal -->
   <script src="script.js"></script>
 </body>
