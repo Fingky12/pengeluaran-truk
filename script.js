@@ -103,71 +103,50 @@ function editTruk(index) {
   }
 }
 
-// ====================== Barang Masuk ======================
-document.getElementById("formMasuk").onsubmit = function (e) {
+document.getElementById("formBarang").onsubmit = function (e) {
   e.preventDefault();
-  const nama = namaBarangMasuk.value;
-  const stok = parseInt(stokMasuk.value);
-  const kategori = kategoriMasuk.value;
-  const harga = parseInt(hargaMasuk.value);
+  const nama = namaBarang.value.trim();
+  const jumlah = parseInt(jumlahBarang.value);
+  const kategori = kategoriBarang.value.trim();
+  const harga = parseInt(hargaBarang.value);
+  const tipe = document.querySelector('input[name="tipe"]:checked').value;
 
-  const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
-  const existing = data.find(b => b.nama === nama);
+  let stok = JSON.parse(localStorage.getItem("sparepart") || "[]");
+  const index = stok.findIndex(b => b.nama === nama);
 
-  if (existing) {
-    existing.stok += stok;
-    existing.harga = harga; // update harga jika perlu
-  } else {
-    data.push({ nama, stok, kategori, harga });
+  if (tipe === "masuk") {
+    if (index !== -1) {
+      stok[index].jumlah += jumlah;
+      stok[index].harga = harga; // update harga
+      stok[index].kategori = kategori;
+    } else {
+      stok.push({ nama, jumlah, kategori, harga });
+    }
+    localStorage.setItem("sparepart", JSON.stringify(stok));
+
+    // simpan log masuk
+    const logMasuk = JSON.parse(localStorage.getItem("logMasuk") || "[]");
+    logMasuk.push({ waktu: new Date().toLocaleString(), nama, jumlah, kategori, harga });
+    localStorage.setItem("logMasuk", JSON.stringify(logMasuk));
+    tampilLogMasuk();
+
+  } else if (tipe === "keluar") {
+    if (index === -1 || stok[index].jumlah < jumlah) {
+      alert("Barang tidak cukup atau tidak ditemukan!");
+      return;
+    }
+    stok[index].jumlah -= jumlah;
+    localStorage.setItem("sparepart", JSON.stringify(stok));
+
+    // simpan log keluar
+    const logKeluar = JSON.parse(localStorage.getItem("logKeluar") || "[]");
+    logKeluar.push({ waktu: new Date().toLocaleString(), nama, jumlah });
+    localStorage.setItem("logKeluar", JSON.stringify(logKeluar));
+    tampilLogKeluar();
   }
 
-  localStorage.setItem("sparepart", JSON.stringify(data));
   tampilSparepart();
-  loadBarangKeluar(); // update dropdown
-
-  const logMasuk = JSON.parse(localStorage.getItem("logMasuk") || "[]");
-
-  logMasuk.push({
-    waktu: new Date().toLocaleString(),
-    nama,
-    stok,
-    kategori,
-    harga
-});
-
-  localStorage.setItem("logMasuk", JSON.stringify(logMasuk));
-  tampilLogMasuk();
-  this.reset();
-};
-
-// ====================== Barang Keluar ======================
-document.getElementById("formKeluar").onsubmit = function (e) {
-  e.preventDefault();
-  const nama = pilihBarangKeluar.value;
-  const stok = parseInt(stokKeluar.value);
-
-  const data = JSON.parse(localStorage.getItem("sparepart") || "[]");
-  const barang = data.find(b => b.nama === nama);
-
-  if (!barang || barang.stok < stok) {
-    alert("Stok tidak cukup!");
-    return;
-  }
-
-  barang.stok -= stok;
-  localStorage.setItem("sparepart", JSON.stringify(data));
-  tampilSparepart();
-
-  const logKeluar = JSON.parse(localStorage.getItem("logKeluar") || "[]");
-
-  logKeluar.push({
-    waktu: new Date().toLocaleString(),
-    nama,
-    stok
-});
-
-  localStorage.setItem("logKeluar", JSON.stringify(logKeluar));
-  tampilLogKeluar();
+  loadBarangKeluar?.(); // kalau ada
   this.reset();
 };
 

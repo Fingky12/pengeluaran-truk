@@ -51,22 +51,21 @@
     </form>
   </section>
 
-<!-- 📜 Riwayat Barang Masuk -->
+<!-- 📦 Barang Masuk/Keluar -->
 <section>
-  <h2>📥 Riwayat Barang Masuk</h2>
-  <button onclick="exportPDF('masuk')">📄 Export PDF</button>
-  <ul id="logMasuk"></ul>
+  <h2>📦 Input Barang Masuk / Keluar</h2>
+  <form id="formBarang">
+    <input type="text" id="namaBarang" placeholder="Nama Barang" required />
+    <input type="number" id="jumlahBarang" placeholder="Jumlah" required />
+    <input type="text" id="kategoriBarang" placeholder="Kategori" />
+    <input type="number" id="hargaBarang" placeholder="Harga per Unit" required />
+    
+    <label><input type="radio" name="tipe" value="masuk" checked /> Barang Masuk</label>
+    <label><input type="radio" name="tipe" value="keluar" /> Barang Keluar</label>
+    
+    <button type="submit">💾 Simpan</button>
+  </form>
 </section>
-
-  <!-- 📍 Input Barang Keluar -->
-  <section>
-    <h2>📤 Barang Keluar (Dipakai)</h2>
-    <form id="formKeluar">
-      <select id="pilihBarangKeluar"></select>
-      <input type="number" id="stokKeluar" placeholder="Stok Keluar" required />
-      <button type="submit">🔻 Kurangi Stok</button>
-    </form>
-  </section>
 
 <!-- 📤 Riwayat Barang Keluar -->
 <section>
