@@ -34,6 +34,32 @@ section:hover {
   transform: translateY(-2px);
 }
 
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #353b48;
+  padding: 0.8rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+.actions {
+  display: flex;
+  gap: 0.3rem;
+}
+.edit-btn {
+  background: #74b9ff;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+}
+.hapus-btn {
+  background: #ff7675;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+}
+
 /* ===== Responsive 2-Column Layout for Desktop ===== */
 @media (min-width: 768px) {
   section {

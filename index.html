@@ -9,33 +9,38 @@
 </head>
 
 <body>
-  <h1>🚛 Sistem Fleet Management</h1>
+ <h1>🚚 Sistem Fleet Management</h1>
 
-  <!-- 📍 Input Supir -->
+  <!-- 🔧 Form Gabungan: Supir + Truk -->
   <section>
-    <h2>👨‍✈️ Input Supir</h2>
-    <form id="formSupir">
+    <h2>👨‍✈️ Input Supir + Truk</h2>
+    <form id="formSupirTruk">
+      <h3>Data Supir</h3>
       <input type="text" id="namaSupir" placeholder="Nama Supir" required />
       <input type="text" id="noHP" placeholder="Nomor HP" required />
-      <input type="text" id="trukSupir" placeholder="Plat Truk yang Dikemudikan" />
-      <button type="submit">➕ Tambah Supir</button>
-    </form>
-    <ul id="listSupir"></ul>
-  </section>
 
-  <!-- 📍 Input Truk -->
-  <section>
-    <h2>🚚 Input Truk</h2>
-    <form id="formTruk">
-      <input type="text" id="platTruk" placeholder="Nomor Polisi" required />
+      <h3>Data Truk</h3>
+      <input type="text" id="platTruk" placeholder="Plat Nomor" required />
       <input type="text" id="tipeTruk" placeholder="Tipe Truk" />
-      <input type="number" id="tahunTruk" placeholder="Tahun" />
+      <input type="number" id="tahunTruk" placeholder="Tahun Truk" />
       <select id="statusTruk">
         <option value="Aktif">Aktif</option>
         <option value="Nonaktif">Nonaktif</option>
       </select>
-      <button type="submit">➕ Tambah Truk</button>
+
+      <button type="submit">➕ Simpan Supir + Truk</button>
     </form>
+  </section>
+
+  <!-- 👥 Daftar Supir -->
+  <section>
+    <h2>📋 Daftar Supir</h2>
+    <ul id="listSupir"></ul>
+  </section>
+
+  <!-- 🚛 Daftar Truk -->
+  <section>
+    <h2>🚛 Daftar Truk</h2>
     <ul id="listTruk"></ul>
   </section>
 
@@ -67,7 +72,8 @@
     <h2>📦 Daftar Stok Sparepart</h2>
     <ul id="listSparepart"></ul>
   </section>
-
+  
+  <!-- JS Eksternal -->
   <script src="script.js"></script>
 </body>
 </html>
